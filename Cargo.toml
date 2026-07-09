@@ -21,7 +21,7 @@ nota-text = ["dep:nota", "signal-frame/nota-text", "signal-spirit/nota-text"]
 nota           = { package = "nota", git = "https://github.com/LiGoldragon/nota.git", branch = "main", optional = true }
 rkyv           = { version = "0.8", default-features = false, features = ["std", "bytecheck", "little_endian", "pointer_width_32", "unaligned"] }
 signal-frame   = { git = "https://github.com/LiGoldragon/signal-frame.git", branch = "main", default-features = false }
-signal-spirit  = { git = "https://github.com/LiGoldragon/signal-spirit.git", branch = "main", default-features = false }
+signal-spirit  = { git = "https://github.com/LiGoldragon/signal-spirit.git", rev = "1cf7c010029de46369b742687da4fa1ca6def9a9", default-features = false }
 thiserror      = "2"
 
 [lints.rust]
