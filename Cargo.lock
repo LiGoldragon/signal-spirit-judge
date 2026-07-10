@@ -334,16 +334,7 @@ name = "nota"
 version = "0.5.1"
 source = "git+https://github.com/LiGoldragon/nota.git?branch=main#d25c08a87b897f2eac28621fb6c3d25801cdccfc"
 dependencies = [
- "nota-derive 0.3.0 (git+https://github.com/LiGoldragon/nota.git?branch=main)",
- "rkyv",
-]
-
-[[package]]
-name = "nota"
-version = "0.5.1"
-source = "git+https://github.com/LiGoldragon/nota-next.git?branch=main#d25c08a87b897f2eac28621fb6c3d25801cdccfc"
-dependencies = [
- "nota-derive 0.3.0 (git+https://github.com/LiGoldragon/nota-next.git?branch=main)",
+ "nota-derive",
  "rkyv",
 ]
 
@@ -351,16 +342,6 @@ dependencies = [
 name = "nota-derive"
 version = "0.3.0"
 source = "git+https://github.com/LiGoldragon/nota.git?branch=main#d25c08a87b897f2eac28621fb6c3d25801cdccfc"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
-]
-
-[[package]]
-name = "nota-derive"
-version = "0.3.0"
-source = "git+https://github.com/LiGoldragon/nota-next.git?branch=main#d25c08a87b897f2eac28621fb6c3d25801cdccfc"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -506,7 +487,7 @@ version = "0.2.0"
 source = "git+https://github.com/LiGoldragon/schema-language.git?rev=6aae825d668e3f607a2754afa6b7d94e9f246c41#6aae825d668e3f607a2754afa6b7d94e9f246c41"
 dependencies = [
  "blake3",
- "nota 0.5.1 (git+https://github.com/LiGoldragon/nota.git?branch=main)",
+ "nota",
  "rkyv",
  "schema-language-cc",
  "thiserror",
@@ -517,7 +498,7 @@ name = "schema-language-cc"
 version = "0.1.0"
 source = "git+https://github.com/LiGoldragon/schema-language.git?rev=6aae825d668e3f607a2754afa6b7d94e9f246c41#6aae825d668e3f607a2754afa6b7d94e9f246c41"
 dependencies = [
- "nota 0.5.1 (git+https://github.com/LiGoldragon/nota.git?branch=main)",
+ "nota",
  "prettyplease",
  "proc-macro2",
  "quote",
@@ -530,7 +511,7 @@ name = "schema-rust"
 version = "0.6.0"
 source = "git+https://github.com/LiGoldragon/schema-rust.git?rev=3278fbc6e6593c044437b3ee5ca1fe71cac344c1#3278fbc6e6593c044437b3ee5ca1fe71cac344c1"
 dependencies = [
- "nota 0.5.1 (git+https://github.com/LiGoldragon/nota.git?branch=main)",
+ "nota",
  "prettyplease",
  "proc-macro2",
  "quote",
@@ -581,7 +562,7 @@ name = "signal-domain"
 version = "0.1.0"
 source = "git+https://github.com/LiGoldragon/signal-domain.git?rev=801e1c5bcc824c9760e246205826e3c8e962d005#801e1c5bcc824c9760e246205826e3c8e962d005"
 dependencies = [
- "nota 0.5.1 (git+https://github.com/LiGoldragon/nota-next.git?branch=main)",
+ "nota",
  "rkyv",
  "schema-language",
  "schema-rust",
@@ -592,7 +573,7 @@ name = "signal-frame"
 version = "0.3.0"
 source = "git+https://github.com/LiGoldragon/signal-frame.git?branch=main#fd7909d1497b7bb18751521387a1087cd9e7c91c"
 dependencies = [
- "nota 0.5.1 (git+https://github.com/LiGoldragon/nota.git?branch=main)",
+ "nota",
  "paste",
  "rkyv",
  "signal-frame-macros",
@@ -614,7 +595,7 @@ name = "signal-spirit"
 version = "0.13.0"
 source = "git+https://github.com/LiGoldragon/signal-spirit.git?rev=1cf7c010029de46369b742687da4fa1ca6def9a9#1cf7c010029de46369b742687da4fa1ca6def9a9"
 dependencies = [
- "nota 0.5.1 (git+https://github.com/LiGoldragon/nota.git?branch=main)",
+ "nota",
  "rkyv",
  "schema-language",
  "schema-rust",
@@ -628,7 +609,7 @@ dependencies = [
 name = "signal-spirit-judge"
 version = "0.1.0"
 dependencies = [
- "nota 0.5.1 (git+https://github.com/LiGoldragon/nota.git?branch=main)",
+ "nota",
  "rkyv",
  "signal-frame",
  "signal-spirit",
@@ -795,7 +776,7 @@ name = "version-projection"
 version = "0.1.0"
 source = "git+https://github.com/LiGoldragon/version-projection.git?branch=main#f401ce1535afaaa1724ff181a177d1535606d336"
 dependencies = [
- "nota 0.5.1 (git+https://github.com/LiGoldragon/nota.git?branch=main)",
+ "nota",
  "rkyv",
  "thiserror",
 ]

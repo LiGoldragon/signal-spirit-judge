@@ -24,6 +24,10 @@ signal-frame   = { git = "https://github.com/LiGoldragon/signal-frame.git", bran
 signal-spirit  = { git = "https://github.com/LiGoldragon/signal-spirit.git", rev = "1cf7c010029de46369b742687da4fa1ca6def9a9", default-features = false }
 thiserror      = "2"
 
+[patch."https://github.com/LiGoldragon/nota-next.git"]
+nota = { package = "nota", git = "https://github.com/LiGoldragon/nota.git", branch = "main" }
+nota-derive = { package = "nota-derive", git = "https://github.com/LiGoldragon/nota.git", branch = "main" }
+
 [lints.rust]
 unsafe_code = "forbid"
 unused      = { level = "warn", priority = -1 }
