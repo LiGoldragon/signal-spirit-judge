@@ -21,9 +21,9 @@ Owned here:
 
 Not owned here:
 
-- provider calls and retries, which belong in `judge`;
+- bounded provider calls, which belong in `judge`; adapters own any safe retry decision;
 - prompt prose, which belongs in a Spirit judge configuration repo;
-- adapter process lifecycle, which belongs in a future `spirit-judge` runtime;
+- adapter process lifecycle, which belongs in the `spirit-judge` runtime;
 - Spirit storage, admission, or referent registration logic, which belongs in
   `spirit`.
 

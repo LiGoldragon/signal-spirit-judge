@@ -7,4 +7,4 @@
 - Diagnostics default to redacted text and content hashes; do not add raw private
   content fields to reply diagnostics.
 - Keep request and reply records in this repo together.
-- Run `cargo fmt`, `cargo test`, and `nix flake check` after Rust changes.
+- Run `cargo fmt`, `cargo test --all-features`, and `nix flake check` after Rust changes.
