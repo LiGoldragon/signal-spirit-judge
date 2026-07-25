@@ -34,11 +34,19 @@
         packages.default = craneLib.buildPackage (commonArgs // { inherit cargoArtifacts; });
         checks = {
           build = craneLib.cargoBuild (commonArgs // { inherit cargoArtifacts; });
-          test = craneLib.cargoTest (commonArgs // { inherit cargoArtifacts; });
+          test = craneLib.cargoTest (commonArgs // {
+            inherit cargoArtifacts;
+            cargoTestExtraArgs = "--all-features";
+          });
           fmt = craneLib.cargoFmt { inherit src; };
           clippy = craneLib.cargoClippy (commonArgs // {
             inherit cargoArtifacts;
-            cargoClippyExtraArgs = "--all-targets -- -D warnings";
+            cargoClippyExtraArgs = "--all-targets --all-features -- -D warnings";
+          });
+          doc = craneLib.mkCargoDerivation (commonArgs // {
+            inherit cargoArtifacts;
+            pname = "signal-spirit-judge-doc";
+            buildPhaseCargoCommand = "cargo doc --workspace --all-features --no-deps";
           });
         };
         devShells.default = pkgs.mkShell {

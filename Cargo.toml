@@ -18,15 +18,14 @@ default = []
 nota-text = ["dep:nota", "signal-frame/nota-text", "signal-spirit/nota-text"]
 
 [dependencies]
-nota           = { package = "nota", git = "https://github.com/LiGoldragon/nota.git", branch = "main", optional = true }
+nota           = { package = "nota", git = "https://github.com/LiGoldragon/nota.git", rev = "89dc3c85a9ff96d4e4d53accfd867df672cae5a8", optional = true }
 rkyv           = { version = "0.8", default-features = false, features = ["std", "bytecheck", "little_endian", "pointer_width_32", "unaligned"] }
-signal-frame   = { git = "https://github.com/LiGoldragon/signal-frame.git", branch = "main", default-features = false }
-signal-spirit  = { git = "https://github.com/LiGoldragon/signal-spirit.git", rev = "1cf7c010029de46369b742687da4fa1ca6def9a9", default-features = false }
+signal-frame   = { git = "https://github.com/LiGoldragon/signal-frame.git", rev = "e27bbb5752f133589ba3200c3aace1b350c5123e", default-features = false }
+signal-spirit  = { git = "https://github.com/LiGoldragon/signal-spirit.git", rev = "d2589210c87bcae08386c4b645fc1d7eb49a139c", default-features = false }
 thiserror      = "2"
 
-[patch."https://github.com/LiGoldragon/nota-next.git"]
-nota = { package = "nota", git = "https://github.com/LiGoldragon/nota.git", branch = "main" }
-nota-derive = { package = "nota-derive", git = "https://github.com/LiGoldragon/nota.git", branch = "main" }
+[dev-dependencies]
+schema-language = { git = "https://github.com/LiGoldragon/schema-language.git", rev = "9c217610c4b8d3bdaa9f95542e28c04424a593e3" }
 
 [lints.rust]
 unsafe_code = "forbid"
