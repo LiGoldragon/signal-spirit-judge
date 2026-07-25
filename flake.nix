@@ -29,22 +29,23 @@
         };
         commonArgs = { inherit src; strictDeps = true; };
         cargoArtifacts = craneLib.buildDepsOnly commonArgs;
+        checkArgs = commonArgs // {
+          inherit cargoArtifacts;
+          doInstallCargoArtifacts = false;
+        };
       in
       {
         packages.default = craneLib.buildPackage (commonArgs // { inherit cargoArtifacts; });
         checks = {
-          build = craneLib.cargoBuild (commonArgs // { inherit cargoArtifacts; });
-          test = craneLib.cargoTest (commonArgs // {
-            inherit cargoArtifacts;
+          build = craneLib.cargoBuild checkArgs;
+          test = craneLib.cargoTest (checkArgs // {
             cargoTestExtraArgs = "--all-features";
           });
-          fmt = craneLib.cargoFmt { inherit src; };
-          clippy = craneLib.cargoClippy (commonArgs // {
-            inherit cargoArtifacts;
+          fmt = craneLib.cargoFmt (commonArgs // { doInstallCargoArtifacts = false; });
+          clippy = craneLib.cargoClippy (checkArgs // {
             cargoClippyExtraArgs = "--all-targets --all-features -- -D warnings";
           });
-          doc = craneLib.mkCargoDerivation (commonArgs // {
-            inherit cargoArtifacts;
+          doc = craneLib.mkCargoDerivation (checkArgs // {
             pname = "signal-spirit-judge-doc";
             buildPhaseCargoCommand = "cargo doc --workspace --all-features --no-deps";
           });

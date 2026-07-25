@@ -50,7 +50,7 @@
   ]
   AdmissionRejectionReason.[Duplicate Contradiction Compound NonIntent NegativeGuideline Matter UnclearPrivacy UnclearDomain ClarifyTramples ClarifyLosesMeaning SupersedeTargetMissing RetrievalInsufficient MissingTestimony TestimonyFabricated InsufficientWarrant Overstated ImportanceUnsupported JudgeUnavailable JudgeMalformed JudgeTimedOut]
   ReferentRegistrationRejectionReason.[Duplicate Ambiguous TooVague AliasCollision NonReferent UnclearJustification JudgeUnavailable JudgeMalformed JudgeTimedOut]
-  JudgeDiagnostic.{ RedactedText ContentHashes }
+  JudgeDiagnostic.{ RedactedText Vector.ContentHash }
   SpiritJudgeRequestRejection.{ SpiritJudgeRequestRejectionReason JudgeDiagnostic }
   SpiritJudgeRequestRejectionReason.[
     InvalidRequest
@@ -59,7 +59,6 @@
     ProviderRejected
     ResponseFormatFailure
   ]
-  ContentHashes.Vector.ContentHash
   ContentHash.String
   RedactedText.String
 }
