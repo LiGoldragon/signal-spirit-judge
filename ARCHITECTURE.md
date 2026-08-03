@@ -1,34 +1,30 @@
-# signal-spirit-judge — architecture
+# signal-spirit-judge architecture
 
-`signal-spirit-judge` is the Spirit-specific contract between `spirit` and the
-`spirit-judge` text/model edge adapter.
+`signal-spirit-judge` is the typed exchange contract between `spirit` and the
+Spirit judge adapter. Version 0.2.0 defines wire revision 2 and depends exactly
+on `signal-spirit` 0.14.0.
 
-It owns both sides of the exchange: Spirit sends typed judge requests, and the
-adapter returns typed judge replies. The initial surface covers Spirit's current
-judge families: record/proposal admission judgment and referent registration
-judgment.
+The request surface has one root:
 
-## Boundary
+```text
+JudgeAdmission(
+  AdmissionJudgePacket {
+    AdmissionJudgeOperation
+    RecordSet
+    DatabaseMarker
+  }
+)
+```
 
-Owned here:
+Replies are `AdmissionJudged` or `RequestRejected`. Diagnostics contain only
+redacted text and content hashes. This conservative form applies uniformly as
+an operational security rule.
 
-- `SpiritJudgeRequest` and `SpiritJudgeReply`;
-- typed request packet records for Spirit admission and referent judgment;
-- explicit public/private request scope records;
-- typed verdict, rejection, and privacy-safe diagnostic records;
-- rkyv-compatible wire records;
-- NOTA projection shape for clients, tests, and tools.
+This crate owns typed request/reply records, the rkyv exchange shape, and the
+optional text projection. Provider calls belong in `judge`, prompt prose in
+`spirit-judge-config`, adapter lifecycle in `spirit-judge`, and storage or
+admission execution in `spirit`.
 
-Not owned here:
-
-- bounded provider calls, which belong in `judge`; adapters own any safe retry decision;
-- prompt prose, which belongs in a Spirit judge configuration repo;
-- adapter process lifecycle, which belongs in the `spirit-judge` runtime;
-- Spirit storage, admission, or referent registration logic, which belongs in
-  `spirit`.
-
-## Privacy
-
-Requests name whether the adapter may receive public or private Spirit content.
-Replies and diagnostics must stay privacy-safe by default: they carry redacted
-messages and content hashes, not raw private content.
+Revision 1 frames are not accepted. Tests prove the one admission request and
+reply round trip, four-field record dependency, uniform diagnostics, rejected
+old request shapes, and absence of retired vocabulary from active artifacts.

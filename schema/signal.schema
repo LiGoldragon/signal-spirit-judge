@@ -1,35 +1,22 @@
-;; Spirit-specific judge contract sketch.
-;; Rust source owns this first vertical slice directly; this concept schema names
-;; the typed request/reply spine and payload records for generator alignment.
+;; Spirit admission judge contract, wire revision 2.
 [
   JudgeAdmission
-  JudgeReferentRegistration
 ]
 [
   AdmissionJudged
-  ReferentRegistrationJudged
   RequestRejected
 ]
 {
   JudgeAdmission AdmissionJudgePacket
-  JudgeReferentRegistration ReferentRegistrationJudgePacket
   AdmissionJudged AdmissionJudgeResponse
-  ReferentRegistrationJudged ReferentRegistrationJudgeResponse
   RequestRejected SpiritJudgeRequestRejection
 
-  AdmissionJudgePacket { JudgmentScope AdmissionJudgeOperation RecordSet DatabaseMarker }
-  ReferentRegistrationJudgePacket { JudgmentScope ReferentRegistration RegisteredReferents DatabaseMarker }
-  JudgmentScope [Public Private]
-  Private { PrivateDiagnosticPolicy }
-  PrivateDiagnosticPolicy [HashesAndRedaction]
+  AdmissionJudgePacket { AdmissionJudgeOperation RecordSet DatabaseMarker }
   AdmissionJudgeOperation [Record Propose Clarify ResolveClarification Supersede Retire ChangeRecord]
 
   AdmissionJudgeResponse { AdmissionJudgeVerdict JudgeDiagnostic }
-  ReferentRegistrationJudgeResponse { ReferentRegistrationJudgeVerdict JudgeDiagnostic }
   AdmissionJudgeVerdict [Accept Reject]
-  ReferentRegistrationJudgeVerdict [Accept RejectReferent]
-  AdmissionRejectionReason [Duplicate Contradiction Compound NonIntent NegativeGuideline Matter UnclearPrivacy UnclearDomain ClarifyTramples ClarifyLosesMeaning SupersedeTargetMissing RetrievalInsufficient MissingTestimony TestimonyFabricated InsufficientWarrant Overstated ImportanceUnsupported JudgeUnavailable JudgeMalformed JudgeTimedOut]
-  ReferentRegistrationRejectionReason [Duplicate Ambiguous TooVague AliasCollision NonReferent UnclearJustification JudgeUnavailable JudgeMalformed JudgeTimedOut]
+  AdmissionRejectionReason [Duplicate Contradiction Compound NonIntent NegativeGuideline Matter UnclearDomain ClarifyTramples ClarifyLosesMeaning SupersedeTargetMissing RetrievalInsufficient MissingTestimony TestimonyFabricated InsufficientWarrant ImportanceUnsupported JudgeUnavailable JudgeMalformed JudgeTimedOut]
   JudgeDiagnostic { RedactedText ContentHashes }
   ContentHashes (Vector ContentHash)
   ContentHash String
@@ -43,7 +30,5 @@
   Retirement signal-spirit.Retirement
   RecordChange signal-spirit.RecordChange
   RecordSet signal-spirit.RecordSet
-  ReferentRegistration signal-spirit.ReferentRegistration
-  RegisteredReferents signal-spirit.RegisteredReferents
   DatabaseMarker signal-spirit.DatabaseMarker
 }

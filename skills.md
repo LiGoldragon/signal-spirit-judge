@@ -1,10 +1,10 @@
-# skills — signal-spirit-judge
+# signal-spirit-judge editing contract
 
-- Contract-local operation roots: `JudgeAdmission` and `JudgeReferentRegistration`.
-- Binary component traffic uses typed rkyv records. NOTA is only projection for
-  clients, tests, and tools.
-- Every request carries an explicit `JudgmentScope`.
-- Diagnostics default to redacted text and content hashes; do not add raw private
-  content fields to reply diagnostics.
-- Keep request and reply records in this repo together.
-- Run `cargo fmt`, `cargo test --all-features`, and `nix flake check` after Rust changes.
+- The only request root is `JudgeAdmission`.
+- Its packet is exactly operation, record set, and database marker.
+- Binary component traffic uses rkyv; text is edge projection only.
+- Diagnostics are uniformly redacted text plus content hashes.
+- Keep request and reply records together; runtime and prompt prose live out of
+  this repository.
+- Do not add compatibility shapes or defaults.
+- Run formatting, all-feature tests, and the Nix flake checks.
