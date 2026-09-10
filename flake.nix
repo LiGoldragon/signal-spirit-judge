@@ -23,8 +23,8 @@
           root = ./.;
           extraFilters = [
             (path: type:
-              type == "directory" && baseNameOf path == "schema"
-              || type == "regular" && baseNameOf path == "signal.schema")
+              type == "directory" && baseNameOf path == "ethos"
+              || type == "regular" && baseNameOf path == "signal.ethos")
           ];
         };
         commonArgs = { inherit src; strictDeps = true; };

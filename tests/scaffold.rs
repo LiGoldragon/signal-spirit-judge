@@ -1,142 +1,107 @@
-use signal_frame::{
-    ExchangeFrameBody, ExchangeIdentifier, ExchangeLane, LaneSequence, NonEmpty, Reply, Request,
-    ShortHeader, SubReply,
-};
 use signal_spirit::{
-    CommitSequence, DatabaseMarker, Description, Domain, Domains, Entry, Importance, Justification,
-    Kind, Magnitude, Reasoning, RecordRequest, RecordSet, StateDigest, Testimony,
+    DatabaseMarker, Entry, Justification, Kind, Magnitude, RecordRequest, RecordSet,
 };
 use signal_spirit_judge::{
     AdmissionJudgeOperation, AdmissionJudgePacket, AdmissionJudgeResponse, AdmissionJudgeVerdict,
-    AdmissionRejectionReason, ContentHash, JudgeDiagnostic, RedactedText, SpiritJudgeFrame,
-    SpiritJudgeReply, SpiritJudgeRequest,
+    AdmissionRejectionReason, ByteViewable, JudgeDiagnostic, Query, Response, Restorable, Signal,
+    Signalizable, SpiritJudgeRequestRejection, SpiritJudgeRequestRejectionReason,
 };
-
-fn exchange_identifier() -> ExchangeIdentifier {
-    ExchangeIdentifier::new(
-        signal_frame::SessionEpoch::new(7),
-        ExchangeLane::Connector,
-        LaneSequence::first(),
-    )
-}
-
-fn database_marker() -> DatabaseMarker {
-    DatabaseMarker {
-        commit_sequence: CommitSequence::new(1),
-        state_digest: StateDigest::new(99),
-    }
-}
-
-fn redacted_diagnostic() -> JudgeDiagnostic {
-    JudgeDiagnostic::new(
-        RedactedText::new("sensitive details redacted").unwrap(),
-        vec![ContentHash::new("sha256:fixture-content-hash").unwrap()],
-    )
-}
 
 fn record_request() -> RecordRequest {
     RecordRequest {
         entry: Entry {
-            domains: Domains::new(vec![Domain::All]),
+            domains: vec![],
             kind: Kind::Principle,
-            description: Description::new("Contracts carry typed data."),
-            importance: Importance::new(Magnitude::Medium),
+            description: "Contracts carry typed data.".into(),
+            importance: Magnitude::Medium,
         },
-        justification: Justification {
-            testimony: Testimony::new(Vec::new()),
-            reasoning: Reasoning::new("workspace artifact name"),
-        },
+        justification: Justification::Reasoning("guardian witness".into()),
     }
 }
 
-fn admission_request() -> SpiritJudgeRequest {
-    SpiritJudgeRequest::JudgeAdmission(AdmissionJudgePacket::new(
-        AdmissionJudgeOperation::Record(record_request()),
-        RecordSet::new(Vec::new()),
-        database_marker(),
-    ))
-}
-
-#[test]
-fn admission_request_round_trips_through_binary_frame() {
-    let request = admission_request();
-    let frame = SpiritJudgeFrame::with_short_header(
-        ShortHeader::new(1),
-        ExchangeFrameBody::Request {
-            exchange: exchange_identifier(),
-            request: Request::from_payload(request.clone()),
-        },
-    );
-
-    let encoded = frame.encode_length_prefixed().unwrap();
-    let decoded = SpiritJudgeFrame::decode_length_prefixed(&encoded).unwrap();
-
-    assert_eq!(decoded.body(), frame.body());
-}
-
-#[test]
-fn admission_reply_round_trips_through_binary_frame() {
-    let reply_payload = SpiritJudgeReply::AdmissionJudged(AdmissionJudgeResponse::new(
-        AdmissionJudgeVerdict::Reject(AdmissionRejectionReason::ImportanceUnsupported),
-        redacted_diagnostic(),
-    ));
-    let frame = SpiritJudgeFrame::with_short_header(
-        ShortHeader::new(1),
-        ExchangeFrameBody::Reply {
-            exchange: exchange_identifier(),
-            reply: Reply::committed(NonEmpty::single(SubReply::Ok(reply_payload))),
-        },
-    );
-
-    let encoded = frame.encode_length_prefixed().unwrap();
-    let decoded = SpiritJudgeFrame::decode_length_prefixed(&encoded).unwrap();
-
-    assert_eq!(decoded.body(), frame.body());
-}
-
-#[test]
-fn admission_response_defaults_to_conservative_rejection() {
-    let response = AdmissionJudgeResponse::conservative_rejection(redacted_diagnostic());
-
-    assert!(matches!(
-        response.verdict,
-        AdmissionJudgeVerdict::Reject(AdmissionRejectionReason::JudgeUnavailable)
-    ));
-    assert_eq!(response.diagnostic.content_hashes.len(), 1);
-    assert_eq!(
-        response.diagnostic.redacted_text.as_str(),
-        "sensitive details redacted"
-    );
-}
-
-#[test]
-fn active_contract_excludes_revision_1_scope_and_registration_vocabulary() {
-    let rust = include_str!("../src/lib.rs");
-    for removed in [
-        "JudgmentScope",
-        "PrivateDiagnosticPolicy",
-        "ReferentRegistration",
-        "UnclearPrivacy",
-        "Overstated",
-    ] {
-        assert!(!signal_spirit_judge::SIGNAL_SCHEMA_SOURCE.contains(removed));
-        assert!(!rust.contains(removed));
+fn diagnostic() -> JudgeDiagnostic {
+    JudgeDiagnostic {
+        redacted_text: "sensitive details redacted".into(),
+        content_hashes: vec!["sha256:fixture-content-hash".into()],
     }
 }
 
-#[cfg(feature = "nota-text")]
-#[test]
-fn revision_1_request_shapes_fail_to_decode() {
-    use nota::NotaSource;
+fn admission() -> Query {
+    Query::JudgeAdmission(AdmissionJudgePacket {
+        admission_judge_operation: AdmissionJudgeOperation::Record(record_request()),
+        record_set: RecordSet::new(),
+        database_marker: DatabaseMarker {
+            commit_sequence: 1,
+            state_digest: 99,
+        },
+    })
+}
 
-    for source in [
-        "(JudgeReferentRegistration ignored)",
-        "(JudgeAdmission (Public ignored [] (1 99)))",
-    ] {
-        assert!(
-            NotaSource::new(source)
-                .parse::<SpiritJudgeRequest>()
-                .is_err()
-        );
-    }
+#[test]
+fn guardian_admission_round_trips_through_fresh_received_signal_bytes() {
+    let query = admission();
+    let received = Signal::<Query>::from(
+        query
+            .signalize()
+            .expect("signalize admission")
+            .bytes()
+            .to_vec(),
+    );
+    assert_eq!(received.restore().expect("restore admission"), query);
+}
+
+#[test]
+fn guardian_verdict_and_rejection_round_trip_through_fresh_received_signal_bytes() {
+    let verdict = Response::AdmissionJudged(AdmissionJudgeResponse {
+        admission_judge_verdict: AdmissionJudgeVerdict::Reject(
+            AdmissionRejectionReason::ImportanceUnsupported,
+        ),
+        judge_diagnostic: diagnostic(),
+    });
+    let received = Signal::<Response>::from(
+        verdict
+            .signalize()
+            .expect("signalize verdict")
+            .bytes()
+            .to_vec(),
+    );
+    assert_eq!(received.restore().expect("restore verdict"), verdict);
+
+    let rejection = Response::RequestRejected(SpiritJudgeRequestRejection {
+        spirit_judge_request_rejection_reason: SpiritJudgeRequestRejectionReason::InvalidRequest,
+        judge_diagnostic: diagnostic(),
+    });
+    let received = Signal::<Response>::from(
+        rejection
+            .signalize()
+            .expect("signalize rejection")
+            .bytes()
+            .to_vec(),
+    );
+    assert_eq!(received.restore().expect("restore rejection"), rejection);
+}
+
+#[test]
+fn malformed_guardian_signal_is_rejected() {
+    assert!(Signal::<Query>::from(vec![1, 2, 3]).restore().is_err());
+}
+
+#[cfg(feature = "datom")]
+#[test]
+fn guardian_admission_round_trips_as_datom_text() {
+    use datom_codec::{Actualizing, Budget, Datomizable, Potential};
+    use protos::{Protosizable, ReaderBudget, Textualizable};
+
+    let query = admission();
+    let text = query.clone().datomize(vec![]).protosize().textualize();
+    let mut pending = Potential::<Query>::from(text);
+    let decoded = pending
+        .actualize(&mut Budget {
+            remaining: 1024,
+            reader: ReaderBudget { remaining: 1024 },
+            depth: 0,
+            maximum_depth: 1024,
+        })
+        .expect("actualize guardian admission");
+    assert_eq!(decoded, query);
 }

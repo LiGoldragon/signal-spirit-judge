@@ -1,13 +1,13 @@
 [package]
 name         = "signal-spirit-judge"
-version      = "0.2.0"
+version      = "1.0.0"
 edition      = "2024"
 rust-version = "1.89"
 license      = "MIT OR Apache-2.0"
 repository   = "https://github.com/LiGoldragon/signal-spirit-judge"
 description  = "Typed Spirit judge request and reply Signal contract."
 publish      = false
-include      = ["Cargo.toml", "Cargo.lock", "README.md", "schema/**", "src/**", "tests/**"]
+include      = ["Cargo.toml", "Cargo.lock", "README.md", "ethos/**", "src/**", "tests/**", "build.rs"]
 
 [lib]
 name = "signal_spirit_judge"
@@ -15,18 +15,17 @@ path = "src/lib.rs"
 
 [features]
 default = []
-nota-text = ["dep:nota", "signal-frame/nota-text", "signal-spirit/nota-text"]
+datom = ["dep:datom-codec", "dep:protos", "signal-spirit/datom"]
 
 [dependencies]
-nota           = { package = "nota", git = "https://github.com/LiGoldragon/nota.git", branch = "main", optional = true }
-rkyv           = { version = "0.8", default-features = false, features = ["std", "bytecheck", "little_endian", "pointer_width_32", "unaligned"] }
-signal-frame   = { git = "https://github.com/LiGoldragon/signal-frame.git", branch = "main", default-features = false }
-signal-spirit  = { git = "https://github.com/LiGoldragon/signal-spirit.git", rev = "b37fc963292c157452d06e150296c19005dae3f2", default-features = false }
+datom-codec = { git = "https://github.com/LiGoldragon/datom-codec", rev = "f2cc06858d38a4028c928d33323a6d682e7c222f", optional = true }
+protos = { git = "https://github.com/LiGoldragon/protos", rev = "b543678cfc8609529cea7174eb4af8a64daa54ad", optional = true }
+rkyv           = { version = "=0.8.18", default-features = false, features = ["std", "bytecheck", "little_endian", "pointer_width_32", "unaligned"] }
+signal-spirit = { git = "https://github.com/LiGoldragon/signal-spirit.git", rev = "5d7eb2253be93c5a5a3d932ae023008b8bc71701", default-features = false }
 thiserror      = "2"
 
-[patch."https://github.com/LiGoldragon/nota-next.git"]
-nota = { package = "nota", git = "https://github.com/LiGoldragon/nota.git", branch = "main" }
-nota-derive = { package = "nota-derive", git = "https://github.com/LiGoldragon/nota.git", branch = "main" }
+[build-dependencies]
+ethos-zero = { git = "https://github.com/LiGoldragon/ethos-zero", rev = "daf007296a19ad2f9c8a1e67e102b2e3f09db327" }
 
 [lints.rust]
 unsafe_code = "forbid"
