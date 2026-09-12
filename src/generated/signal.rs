@@ -1,4 +1,5 @@
 #![allow(dead_code, non_camel_case_types, non_snake_case)]
+#[rustfmt::skip]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
 #[cfg_attr(
     feature = "datom",
@@ -9,6 +10,7 @@ pub struct AdmissionJudgePacket {
     pub record_set: signal_spirit::RecordSet,
     pub database_marker: signal_spirit::DatabaseMarker,
 }
+#[rustfmt::skip]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
 #[cfg_attr(
     feature = "datom",
@@ -23,6 +25,7 @@ pub enum AdmissionJudgeOperation {
     Retire(signal_spirit::Retirement),
     ChangeRecord(signal_spirit::RecordChange),
 }
+#[rustfmt::skip]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
 #[cfg_attr(
     feature = "datom",
@@ -32,6 +35,7 @@ pub struct AdmissionJudgeResponse {
     pub admission_judge_verdict: AdmissionJudgeVerdict,
     pub judge_diagnostic: JudgeDiagnostic,
 }
+#[rustfmt::skip]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
 #[cfg_attr(
     feature = "datom",
@@ -41,6 +45,7 @@ pub enum AdmissionJudgeVerdict {
     Accept,
     Reject(AdmissionRejectionReason),
 }
+#[rustfmt::skip]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
 #[cfg_attr(
     feature = "datom",
@@ -66,6 +71,7 @@ pub enum AdmissionRejectionReason {
     JudgeMalformed,
     JudgeTimedOut,
 }
+#[rustfmt::skip]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
 #[cfg_attr(
     feature = "datom",
@@ -75,9 +81,13 @@ pub struct JudgeDiagnostic {
     pub redacted_text: RedactedText,
     pub content_hashes: ContentHashes,
 }
+#[rustfmt::skip]
 pub type ContentHashes = std::vec::Vec<ContentHash>;
+#[rustfmt::skip]
 pub type ContentHash = String;
+#[rustfmt::skip]
 pub type RedactedText = String;
+#[rustfmt::skip]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
 #[cfg_attr(
     feature = "datom",
@@ -87,6 +97,7 @@ pub struct SpiritJudgeRequestRejection {
     pub spirit_judge_request_rejection_reason: SpiritJudgeRequestRejectionReason,
     pub judge_diagnostic: JudgeDiagnostic,
 }
+#[rustfmt::skip]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
 #[cfg_attr(
     feature = "datom",
@@ -99,6 +110,7 @@ pub enum SpiritJudgeRequestRejectionReason {
     ProviderRejected,
     ResponseFormatFailure,
 }
+#[rustfmt::skip]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
 #[cfg_attr(
     feature = "datom",
@@ -107,6 +119,7 @@ pub enum SpiritJudgeRequestRejectionReason {
 pub enum Query {
     JudgeAdmission(AdmissionJudgePacket),
 }
+#[rustfmt::skip]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
 #[cfg_attr(
     feature = "datom",
