@@ -57,8 +57,17 @@ name = "datom-codec"
 version = "0.26.1"
 source = "git+https://github.com/LiGoldragon/datom-codec?rev=18129314966c5043ee659de452b6f976fa319b21#18129314966c5043ee659de452b6f976fa319b21"
 dependencies = [
- "datom-codec-derive 0.26.0",
+ "datom-codec-derive 0.26.0 (git+https://github.com/LiGoldragon/datom-codec?rev=18129314966c5043ee659de452b6f976fa319b21)",
  "protos 0.30.0",
+]
+
+[[package]]
+name = "datom-codec"
+version = "0.26.3"
+source = "git+https://github.com/LiGoldragon/datom-codec?rev=627db67f2655efd9f786864009955005fd8ab2ad#627db67f2655efd9f786864009955005fd8ab2ad"
+dependencies = [
+ "datom-codec-derive 0.26.0 (git+https://github.com/LiGoldragon/datom-codec?rev=627db67f2655efd9f786864009955005fd8ab2ad)",
+ "protos 0.30.1",
 ]
 
 [[package]]
@@ -75,6 +84,16 @@ dependencies = [
 name = "datom-codec-derive"
 version = "0.26.0"
 source = "git+https://github.com/LiGoldragon/datom-codec?rev=18129314966c5043ee659de452b6f976fa319b21#18129314966c5043ee659de452b6f976fa319b21"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.119",
+]
+
+[[package]]
+name = "datom-codec-derive"
+version = "0.26.0"
+source = "git+https://github.com/LiGoldragon/datom-codec?rev=627db67f2655efd9f786864009955005fd8ab2ad#627db67f2655efd9f786864009955005fd8ab2ad"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -110,6 +129,20 @@ dependencies = [
  "prettyplease",
  "proc-macro2",
  "protos 0.30.0",
+ "quote",
+ "rkyv",
+ "syn 3.0.5",
+]
+
+[[package]]
+name = "ethos-zero"
+version = "8.0.1"
+source = "git+https://github.com/LiGoldragon/ethos-zero?rev=de3d9928b156f2e1a92d060b7817af201abfdbef#de3d9928b156f2e1a92d060b7817af201abfdbef"
+dependencies = [
+ "datom-codec 0.26.3",
+ "prettyplease",
+ "proc-macro2",
+ "protos 0.30.1",
  "quote",
  "rkyv",
  "syn 3.0.5",
@@ -226,6 +259,11 @@ source = "git+https://github.com/LiGoldragon/protos?rev=b543678cfc8609529cea7174
 name = "protos"
 version = "0.30.0"
 source = "git+https://github.com/LiGoldragon/protos?rev=e8701521a37c698d6a2eb933618b9d5d1c6f6ffb#e8701521a37c698d6a2eb933618b9d5d1c6f6ffb"
+
+[[package]]
+name = "protos"
+version = "0.30.1"
+source = "git+https://github.com/LiGoldragon/protos?rev=171b21f65337983ab624b7b906397a4f1f92c5a3#171b21f65337983ab624b7b906397a4f1f92c5a3"
 
 [[package]]
 name = "ptr_meta"
@@ -348,9 +386,9 @@ dependencies = [
 name = "signal-spirit-judge"
 version = "2.0.0"
 dependencies = [
- "datom-codec 0.26.1",
- "ethos-zero 8.0.0",
- "protos 0.30.0",
+ "datom-codec 0.26.3",
+ "ethos-zero 8.0.1",
+ "protos 0.30.1",
  "rkyv",
  "signal-spirit",
  "thiserror",
