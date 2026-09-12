@@ -21,7 +21,7 @@ datom = ["dep:datom-codec", "dep:protos", "signal-spirit/datom"]
 datom-codec = { git = "https://github.com/LiGoldragon/datom-codec", rev = "18129314966c5043ee659de452b6f976fa319b21", optional = true }
 protos = { git = "https://github.com/LiGoldragon/protos", rev = "e8701521a37c698d6a2eb933618b9d5d1c6f6ffb", optional = true }
 rkyv           = { version = "=0.8.18", default-features = false, features = ["std", "bytecheck", "little_endian", "pointer_width_32", "unaligned"] }
-signal-spirit = { git = "https://github.com/LiGoldragon/signal-spirit.git", rev = "e4ab10624a0ab6fce1f08cc823b1c49773ddb688", default-features = false }
+signal-spirit = { git = "https://github.com/LiGoldragon/signal-spirit.git", rev = "c1d78e85ef8ca04f816ea02047c3c60428c42f84", default-features = false }
 thiserror      = "2"
 
 [build-dependencies]
