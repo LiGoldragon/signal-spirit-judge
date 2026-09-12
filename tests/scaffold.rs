@@ -15,7 +15,10 @@ fn record_request() -> RecordRequest {
             description: "Contracts carry typed data.".into(),
             importance: Magnitude::Medium,
         },
-        justification: Justification::Reasoning("guardian witness".into()),
+        justification: Justification {
+            testimony: vec![],
+            reasoning: "guardian witness".into(),
+        },
     }
 }
 
