@@ -45,17 +45,18 @@ checksum = "9330f8b2ff13f34540b44e946ef35111825727b38d33286ef986142615121801"
 
 [[package]]
 name = "datom-codec"
-version = "0.27.0"
-source = "git+https://github.com/LiGoldragon/datom-codec?rev=6dccc76b75918a91d3370a9d4fe88aa7dd567876#6dccc76b75918a91d3370a9d4fe88aa7dd567876"
+version = "0.33.0"
+source = "git+https://github.com/LiGoldragon/datom-codec?rev=eabead4#eabead48b31e8d4f429d7fb156dd18548bbd79c1"
 dependencies = [
  "datom-codec-derive",
  "protos",
+ "rkyv",
 ]
 
 [[package]]
 name = "datom-codec-derive"
-version = "0.27.0"
-source = "git+https://github.com/LiGoldragon/datom-codec?rev=6dccc76b75918a91d3370a9d4fe88aa7dd567876#6dccc76b75918a91d3370a9d4fe88aa7dd567876"
+version = "0.32.3"
+source = "git+https://github.com/LiGoldragon/datom-codec?rev=eabead4#eabead48b31e8d4f429d7fb156dd18548bbd79c1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -70,8 +71,22 @@ checksum = "877a4ace8713b0bcf2a4e7eec82529c029f1d0619886d18145fea96c3ffe5c0f"
 
 [[package]]
 name = "ethos-zero"
-version = "9.0.0"
-source = "git+https://github.com/LiGoldragon/ethos-zero?rev=b232d35e03011161fe7ec9129ad99a9914413348#b232d35e03011161fe7ec9129ad99a9914413348"
+version = "19.2.0"
+source = "git+https://github.com/LiGoldragon/ethos-zero?rev=5a5daca#5a5daca315ab24460ccbcd5038130c453e853e6e"
+dependencies = [
+ "datom-codec",
+ "prettyplease",
+ "proc-macro2",
+ "protos",
+ "quote",
+ "rkyv",
+ "syn 3.0.5",
+]
+
+[[package]]
+name = "ethos-zero"
+version = "19.2.0"
+source = "git+https://github.com/LiGoldragon/ethos-zero?rev=5a5daca315ab24460ccbcd5038130c453e853e6e#5a5daca315ab24460ccbcd5038130c453e853e6e"
 dependencies = [
  "datom-codec",
  "prettyplease",
@@ -186,8 +201,11 @@ dependencies = [
 
 [[package]]
 name = "protos"
-version = "0.30.1"
-source = "git+https://github.com/LiGoldragon/protos?rev=171b21f65337983ab624b7b906397a4f1f92c5a3#171b21f65337983ab624b7b906397a4f1f92c5a3"
+version = "0.33.0"
+source = "git+https://github.com/LiGoldragon/protos?rev=3c7ade3#3c7ade34010cec6cec153ae694ee335f7fea0193"
+dependencies = [
+ "rkyv",
+]
 
 [[package]]
 name = "ptr_meta"
@@ -274,32 +292,32 @@ checksum = "cf54715a573b99ac80df0bc206da022bcd442c974952c7b9720069370852e21f"
 
 [[package]]
 name = "signal"
-version = "4.0.0"
-source = "git+https://github.com/LiGoldragon/signal?rev=48ae17b485f2781e8ec1ca02a7fe04ad28a37f9f#48ae17b485f2781e8ec1ca02a7fe04ad28a37f9f"
+version = "10.3.0"
+source = "git+https://github.com/LiGoldragon/signal?rev=7afb68b#7afb68bcd19ce774f47d11c5e69f6e10054f78de"
 dependencies = [
- "ethos-zero",
+ "ethos-zero 19.2.0 (git+https://github.com/LiGoldragon/ethos-zero?rev=5a5daca)",
  "rkyv",
  "thiserror",
 ]
 
 [[package]]
 name = "signal-domain"
-version = "3.0.0"
-source = "git+https://github.com/LiGoldragon/signal-domain.git?rev=0289b88bbdaadc7e957dc55c612f2132d93463e6#0289b88bbdaadc7e957dc55c612f2132d93463e6"
+version = "4.1.0"
+source = "git+https://github.com/LiGoldragon/signal-domain.git?rev=4d25462#4d25462fccbc25a934e6c3462c8ab4790e680a23"
 dependencies = [
  "datom-codec",
- "ethos-zero",
+ "ethos-zero 19.2.0 (git+https://github.com/LiGoldragon/ethos-zero?rev=5a5daca315ab24460ccbcd5038130c453e853e6e)",
  "protos",
  "rkyv",
 ]
 
 [[package]]
 name = "signal-spirit"
-version = "4.0.0"
-source = "git+https://github.com/LiGoldragon/signal-spirit.git?rev=1a0ca65e9f3671263b9c378d8e967851ad8f92eb#1a0ca65e9f3671263b9c378d8e967851ad8f92eb"
+version = "4.1.0"
+source = "git+https://github.com/LiGoldragon/signal-spirit.git?rev=3a0b62f#3a0b62faaa4f9104b8f532ea11e568b930035b09"
 dependencies = [
  "datom-codec",
- "ethos-zero",
+ "ethos-zero 19.2.0 (git+https://github.com/LiGoldragon/ethos-zero?rev=5a5daca315ab24460ccbcd5038130c453e853e6e)",
  "protos",
  "rkyv",
  "signal",
@@ -308,10 +326,10 @@ dependencies = [
 
 [[package]]
 name = "signal-spirit-judge"
-version = "3.0.0"
+version = "3.1.0"
 dependencies = [
  "datom-codec",
- "ethos-zero",
+ "ethos-zero 19.2.0 (git+https://github.com/LiGoldragon/ethos-zero?rev=5a5daca315ab24460ccbcd5038130c453e853e6e)",
  "protos",
  "rkyv",
  "signal-spirit",

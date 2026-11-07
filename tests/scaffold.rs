@@ -1,41 +1,43 @@
 use signal_spirit::{
-    DatabaseMarker, Entry, Justification, Kind, Magnitude, RecordRequest, RecordSet,
+    CommitSequence, DatabaseMarker, Description, Domains, Entry, Importance, Justification, Kind,
+    Magnitude, Reasoning, RecordRequest, RecordSet, StateDigest, Testimony,
 };
 use signal_spirit_judge::{
     AdmissionJudgeOperation, AdmissionJudgePacket, AdmissionJudgeResponse, AdmissionJudgeVerdict,
-    AdmissionRejectionReason, ByteViewable, JudgeDiagnostic, Query, Response, Restorable, Signal,
-    Signalizable, SpiritJudgeRequestRejection, SpiritJudgeRequestRejectionReason,
+    AdmissionRejectionReason, ByteViewable, ContentHash, ContentHashes, JudgeDiagnostic, Query,
+    RedactedText, Response, Restorable, Signal, Signalizable, SpiritJudgeRequestRejection,
+    SpiritJudgeRequestRejectionReason,
 };
 
 fn record_request() -> RecordRequest {
     RecordRequest {
         entry: Entry {
-            domains: vec![],
+            domains: Domains(vec![]),
             kind: Kind::Principle,
-            description: "Contracts carry typed data.".into(),
-            importance: Magnitude::Medium,
+            description: Description("Contracts carry typed data.".into()),
+            importance: Importance(Magnitude::Medium),
         },
         justification: Justification {
-            testimony: vec![],
-            reasoning: "guardian witness".into(),
+            testimony: Testimony(vec![]),
+            reasoning: Reasoning("guardian witness".into()),
         },
     }
 }
 
 fn diagnostic() -> JudgeDiagnostic {
     JudgeDiagnostic {
-        redacted_text: "sensitive details redacted".into(),
-        content_hashes: vec!["sha256:fixture-content-hash".into()],
+        redacted_text: RedactedText("sensitive details redacted".into()),
+        content_hashes: ContentHashes(vec![ContentHash("sha256:fixture-content-hash".into())]),
     }
 }
 
 fn admission() -> Query {
     Query::JudgeAdmission(AdmissionJudgePacket {
         admission_judge_operation: AdmissionJudgeOperation::Record(record_request()),
-        record_set: RecordSet::new(),
+        record_set: RecordSet(vec![]),
         database_marker: DatabaseMarker {
-            commit_sequence: 1,
-            state_digest: 99,
+            commit_sequence: CommitSequence(1),
+            state_digest: StateDigest(99),
         },
     })
 }
@@ -101,7 +103,7 @@ fn guardian_admission_round_trips_as_datom_text() {
     let decoded = pending
         .actualize(&mut Budget {
             remaining: 1024,
-            reader: ReaderBudget { remaining: 1024 },
+            reader: ReaderBudget::try_from(1024).expect("bounded reader budget"),
             depth: 0,
             maximum_depth: 1024,
         })
